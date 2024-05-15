@@ -1,0 +1,10 @@
+<input (input)="filter($event)" />
+<cdk-virtual-scroll-viewport
+  #scrollViewport
+  itemSize="50"
+  class="example-viewport"
+>
+  <div *cdkVirtualFor="let item of items" class="example-item">
+    <button (click)="expandItem(item)">{{ item.label }}</button>
+  </div>
+</cdk-virtual-scroll-viewport>
