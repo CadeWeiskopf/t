@@ -8,10 +8,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { CdkVirtualScrollable, ScrollingModule } from '@angular/cdk/scrolling';
 import { Subject, Subscription, concatMap, of } from 'rxjs';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-type ScrollDirection = 'UP' | 'DOWN' | 'BOTTOM';
+type ScrollDirection = 'UP' | 'DOWN' | null;
 
 @Component({
   selector: 'app-tree',
@@ -56,7 +54,7 @@ export class TreeComponent implements OnInit, AfterViewInit {
         this.scrollViewport.scrollTo({
           top: 1,
         });
-      } else {
+      } else if (this.scrollDirection === 'UP') {
         this.scrollViewport.scrollTo({
           bottom: 1,
         });
@@ -77,6 +75,8 @@ export class TreeComponent implements OnInit, AfterViewInit {
       this.pageIndex += this.pageSize;
     } else if (this.pageIndex > 0) {
       this.pageIndex -= this.pageSize;
+    } else {
+      this.scrollDirection = null;
     }
     this.worker.postMessage({
       action: 'GET_DATA',
